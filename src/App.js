@@ -75,7 +75,7 @@ function SignOut() {
 function ChatRoom() {
   const dummy = useRef();
   const messagesRef = collection(firestore, "messages");
-  const q = query(messagesRef, orderBy("createdAt"), limit(25));
+  const q = query(messagesRef, orderBy("createdAt"), limit(100));
 
   const [messages] = useCollectionData(q, { idField: "id" });
 
@@ -105,7 +105,7 @@ function ChatRoom() {
     <>
       <main>
         {messages &&
-          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          messages.map((msg, i) => <ChatMessage key={i} message={msg} />)}
 
         <span ref={dummy}></span>
       </main>
@@ -118,7 +118,7 @@ function ChatRoom() {
         />
 
         <button type="submit" disabled={!formValue}>
-          🕊️
+          Send
         </button>
       </form>
     </>
@@ -126,7 +126,30 @@ function ChatRoom() {
 }
 
 function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message;
+  const { text, uid, photoURL, createdAt } = props.message;
+
+  function formatDate(dateObject) {
+    if (!dateObject || (!dateObject.seconds && !dateObject.nanoseconds)) {
+      return "Invalid Date";
+    }
+    const milliseconds =
+      (dateObject.seconds || 0) * 1000 +
+      Math.round((dateObject.nanoseconds || 0) / 1000000);
+
+    const formattedDate = new Date(milliseconds);
+
+    const day = formattedDate.getDate();
+    const month = formattedDate.getMonth() + 1;
+    const year = formattedDate.getFullYear();
+    const hours = formattedDate.getHours();
+    const minutes = formattedDate.getMinutes();
+
+    const formattedDateString = `${month}/${day}/${year}, ${hours}:${minutes
+      .toString()
+      .padStart(2, "0")}`;
+
+    return formattedDateString;
+  }
 
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
@@ -140,7 +163,27 @@ function ChatMessage(props) {
           }
           alt="user"
         />
-        <p>{text}</p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: messageClass === "sent" ? "flex-end" : "flex-start",
+          }}
+        >
+          <p>{text}</p>
+          <span
+            style={{
+              fontSize: "0.7rem",
+              color: "#ccc",
+              marginTop: "-0.5rem",
+              display: "block",
+              textAlign: messageClass === "sent" ? "right" : "left",
+              padding: "0 0.5rem",
+            }}
+          >
+            {formatDate(createdAt)}
+          </span>
+        </div>
       </div>
     </>
   );

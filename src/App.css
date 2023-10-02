@@ -55,19 +55,21 @@ main::-webkit-scrollbar-thumb {
 }
 
 form {
-  height: 10vh;
+  margin: 10px;
+  height: 5vh;
   position: fixed;
   bottom: 0;
-  background-color: rgb(24, 23, 23);
   width: 100%;
-  max-width: 728px;
+  max-width: 708px;
   display: flex;
-  font-size: 1.5rem;
+  gap: 10px;
+  font-size: 1rem;
 }
 
 form button {
   width: 20%;
   background-color: rgb(56, 56, 143);
+  border-radius: 50px;
 }
 
 input {
@@ -78,7 +80,8 @@ input {
   color: white;
   outline: none;
   border: none;
-  padding: 0 10px;
+  padding: 0 20px;
+  border-radius: 50px;
 }
 
 button {
@@ -103,7 +106,7 @@ button:disabled {
   background: white;
   max-width: 400px;
   margin: 0 auto;
-  border-radius: 20px;
+  border-radius: 50px;
 }
 
 .sub {
@@ -134,16 +137,20 @@ p {
 
 .sent {
   flex-direction: row-reverse;
+  justify-self: flex-end;
 }
 
 .sent p {
+  width: max-content;
+  text-align: justify;
   color: white;
   background: #0b93f6;
-  align-self: flex-end;
 }
+
 .received p {
   background: #e5e5ea;
   color: black;
+  text-align: justify;
 }
 
 img {
@@ -154,5 +161,6 @@ img {
 }
 
 .sign-out {
-  border-radius: 20px;
+  border-radius: 50px;
+  background-color: red;
 }
