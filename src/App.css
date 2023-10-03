@@ -164,3 +164,8 @@ img {
   border-radius: 50px;
   background-color: red;
 }
+
+.welcome {
+  width: 300px;
+  margin: 0 auto;  
+}

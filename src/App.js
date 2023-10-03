@@ -1,5 +1,9 @@
+import { useRef, useState } from "react";
+
+// import css styles
 import "./App.css";
 
+// import firebase
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
@@ -12,10 +16,15 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+// import hooks
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useRef, useState } from "react";
 
+// import lottie components
+import Lottie from "lottie-react";
+import welcomeAnim from "./assets/welcome.json";
+
+// firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBPrnhS4FZ2fSBrUCLUfFslOyNIYBo85zU",
   authDomain: "mock-test-b4d31.firebaseapp.com",
@@ -38,7 +47,6 @@ function App() {
         <h1 className={user ? "" : "sub"}>Super Chat</h1>
         <SignOut />
       </header>
-
       <section>{user ? <ChatRoom /> : <SignIn />}</section>
     </div>
   );
@@ -52,6 +60,7 @@ function SignIn() {
 
   return (
     <>
+      <Lottie className="welcome" animationData={welcomeAnim} autoPlay loop />
       <button className="sign-in" onClick={signInWithGoogle}>
         Sign in with Google
       </button>
@@ -144,7 +153,7 @@ function ChatMessage(props) {
     const hours = formattedDate.getHours();
     const minutes = formattedDate.getMinutes();
 
-    const formattedDateString = `${month}/${day}/${year}, ${hours}:${minutes
+    const formattedDateString = `${day}/${month}/${year}, ${hours}:${minutes
       .toString()
       .padStart(2, "0")}`;
 
